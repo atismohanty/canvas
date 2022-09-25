@@ -1,0 +1,13 @@
+{
+    "mongo" : {
+        "mongooseHost" : "127.0.0.1",
+        "mongoosePort" : 37017
+    },
+    "protocol": "mongodb",
+    "secret_key": "XPM00YHSKEKKE899UYAPL203SYCUAKALSLPPS",
+    "facebookApp": {
+        "appId": "3075641606080297",
+        "appSecret": "717549c020787b271def0cafeb8b4a6e"
+
+    }
+}

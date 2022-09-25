@@ -1,0 +1,17 @@
+<div class="container-primary">
+    <div class="container-Secondary">
+        <form [formGroup]="loginForm" (ngSubmit)="submitUserCreds()" class="form-full-width">
+            <div class="field-wrapper">
+                <label for="username"> User Name </label>
+                <input type="text" class="default-input" name="username" formControlName="username">
+            </div>
+            <div class="field-wrapper">
+                <label for="password"> Password </label>
+                <input type="password" class="default-input" name="password" formControlName="password">
+            </div>
+
+            <br/>
+            <input type="submit" name="submit" class="submit" value="Login">
+        </form>
+    </div>
+</div>
