@@ -1,0 +1,23 @@
+version: "3.8"
+services:
+  canvasauth:
+    build: ./canvas_auth
+    ports:
+      - 3001:3001
+    environment:
+      - NODE_ENV:dev
+    volumes:
+      - nodemodules:/data/node_modules
+  canvasui:
+    build: ./canvas_UI
+    ports:
+      - 3000:3000
+  db:
+    image: mongo:4.0-xenial 
+    ports:
+      - 37017:37017
+    volumes:
+      - mongodata:/data/mongodata
+volumes:
+  nodemodules:
+  mongodata:
