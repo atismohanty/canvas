@@ -15,9 +15,17 @@ services:
   db:
     image: mongo:4.0-xenial 
     ports:
-      - 37017:37017
+      - 27017:37017
+    expose: 
+      - 37017
     volumes:
       - mongodata:/data/mongodata
+  nginx:
+    build: ./nginx
+    ports:
+      - 80:80
+    
+
 volumes:
   nodemodules:
   mongodata:
