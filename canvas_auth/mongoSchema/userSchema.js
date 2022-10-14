@@ -1,9 +1,8 @@
-const { string } = require("joi");
+const { string, boolean } = require("joi");
 const mongoose =  require("mongoose");
 const joi = require("joi");
 const jswebtoken = require("jsonwebtoken");
 const config = require("config");
-const Joi = require("joi");
 const { ObjectId } = require("mongoose");
 
 const registrationSchema =  new mongoose.Schema(
@@ -48,7 +47,8 @@ const registrationSchema =  new mongoose.Schema(
             // }
         },
         firstName: {type: String, required: true, maxlength: 200},
-        lastName: {type: String, required: true, maxlength: 200 }
+        lastName: {type: String, required: true, maxlength: 200 },
+        userVerified: { type: Boolean}
     });
 
 const federatedUserSchema = new mongoose.Schema(

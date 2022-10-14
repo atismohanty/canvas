@@ -1,7 +1,12 @@
 const userSchema =  require("../mongoSchema/userSchema");
+const userVerificationSchema =  require("../mongoSchema/userVerificationSchema");
 const mongoose =  require("mongoose");
 const bcrypt = require("bcrypt");
+const nodeMailer =  require("nodemailer");
+const config = require("config");
+const { promises } = require("nodemailer/lib/xoauth2");
 var Users;
+
 
 
 
@@ -13,6 +18,10 @@ const initMongoUserModel = function (){
 const initFederatedUserModel =  function() {
     let fdUser = mongoose.model('fdusers', userSchema.federatedUserSchema );
     return fdUser;
+}
+
+const initVerificationModel =  function() {
+    return mongoose.model('verifyUser', userVerificationSchema.usrVerificationSchema);
 }
 
 const findOneUser = async function(findOption) {
@@ -80,6 +89,16 @@ const encryptPwd = async function (user) {
     }
 }
 
+const encryptUserData = async function(id, email) {
+    try {
+        const salt = await bcrypt.genSalt(10);
+        const token = await bcrypt.hash(id + '-' + email, salt);
+        return Promise.resolve(token);
+    } catch(err) {
+        return Promise.reject();
+    }
+}
+
 const validatePwd = function(pwd, cmpPwd) {
   return  bcrypt.compare(pwd,cmpPwd);
 }
@@ -135,4 +154,106 @@ const createFederateUser = async function(data) {
     }
 }
 
-module.exports = {createUser, getAllUser, validatePwd, initMongoUserModel, createFederateUser}
+const initiateVerificationOfRegisterdUser =async function(userData) {
+    try {
+        const { data, userVFData } =  await createVerificationSession(userData);
+        if ( !!data.verificationString) {
+            const dispatchEmail = await sendVerificationEmail(data);
+            if( dispatchEmail.success) {
+                userVFData.save(); // save the verification session
+            }
+        }
+        return Promise.resolve({success: true});
+    } catch (err) {
+        console.log('Something went wrong', err);
+        return Promise.reject(err);
+    }
+
+}
+
+const createVerificationSession = async function(userData) {
+    try {
+        const { id, emailAddress } = {...userData};
+        const verificationString = await encryptUserData(id, emailAddress);
+        const data =  {
+            userId: id,
+            verificationString,
+            emailAddress
+        }
+        const userVerify =   initVerificationModel();
+        const validateData  =  userVerificationSchema.validateUserVerificationSchema(data);
+        if (validateData) {
+            const userVFData =  new userVerify(data);
+            // userVFData.save();
+            return Promise.resolve({data, userVFData});
+        } else {
+            return Promise.reject({error: 'Validation Failed', message: 'Validation Failed'});
+        }
+
+    } catch(err) {
+        return Promise.reject(err);
+    }
+}
+
+const sendVerificationEmail = async function(data){
+    const configData =  config.get('mailer');
+    const mailConfigData = {
+            host: configData.host,
+            port: configData.port,
+            secure: configData.secure,
+            auth: { user: configData.auth.username, pass: process.env.PWD },
+    }
+    const verificationString  = `http://localhost:3001/api/v1/registration/verify?token=${data?.verificationString}`;
+    console.log("mailer data", mailConfigData);
+    const info =  {
+        from: configData.email,
+        to: data.emailAddress,
+        subject: "Verify your email",
+        text: verificationString
+    }
+    console.log('Info', info);
+    try {
+        const transporter =  nodeMailer.createTransport(mailConfigData);
+        const senderId =  await transporter.sendMail(info);
+        console.log('Email Sent Successfully');
+        return Promise.resolve({success: true});
+    }catch(err){
+        console.log('Something went wrong while sending the email', err);
+        return Promise.reject({error: err,  message: 'Unable to send email'});
+    }
+}
+
+const verifyUserToken = async function(param) {
+    try {
+        const verificationModel =  initVerificationModel();
+        const userModel = initMongoUserModel();
+        return new Promise((resolve, reject) => {
+            verificationModel.findOne({verificationString: {$eq: param.token}}, (err, doc) => {
+                if (err || !doc) {
+                    console.log('Error in finding the  verification document');
+                    reject({err: err, message: 'Invalid token.'});
+                }
+                if( doc?.verificationString === param.token && ((Date.now() - doc.tsCreated) < 3600000 ) ) {
+                    return userModel.findById(doc.userId, (err, userdoc) => {
+                        if (err || !userdoc) {
+                            console.log('Erro in finding the  user');
+                            reject({err: err, message: 'Invalid User'});
+                        }
+                        userdoc.userVerified =  true;
+                        userdoc.save();
+                        console.log('User document verified');
+                        resolve({verified: true});
+                    });
+                }
+            });
+        });
+        
+    } catch(err) {
+        console.log('Something went wrong. Catching the error');
+        return Promise.reject({err: err, message: 'Error in verifying the user'});
+    }
+    
+}
+
+
+module.exports = {createUser, getAllUser, validatePwd, initMongoUserModel, createFederateUser, initiateVerificationOfRegisterdUser, verifyUserToken}
