@@ -127,5 +127,8 @@
       }
     }
   },
-  "defaultProject": "canvasUI"
+  "defaultProject": "canvasUI",
+  "cli": {
+    "analytics": false
+  }
 }

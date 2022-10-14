@@ -7,13 +7,15 @@ import { LoginComponent } from './components/login/login.component';
 import { WildRouteComponent } from './components/wild-route/wild-route.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { RegistrationComponent } from './registration/registration.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    WildRouteComponent
+    WildRouteComponent,
+    RegistrationComponent
   ],
   imports: [
     BrowserModule,

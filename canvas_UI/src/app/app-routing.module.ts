@@ -4,8 +4,8 @@ import { LoginComponent } from './components/login/login.component';
 import { WildRouteComponent } from './components/wild-route/wild-route.component';
 
 const routes: Routes = [
-  {path: '', redirectTo: '/login', pathMatch: 'full'},
   {path: 'login', component: LoginComponent},
+  {path: '', redirectTo: 'login', pathMatch: 'prefix'},
   {path: '**', component: WildRouteComponent},
 ];
 

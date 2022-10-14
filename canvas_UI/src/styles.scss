@@ -1,6 +1,25 @@
 /* You can add global styles to this file, and also import other style files */
+
+body { /*  CSS reset */
+    width: 100vw;
+    height: 100vh;
+    padding: 0px;
+    margin: 0px;
+    top: 0px;
+    left: 0px;
+    p, div, nav, main, aside, article {
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+    }
+}
+
 :root {
     --coral: coral;
     --coral-light: #f0808038;
     --coral-dark: #b7451c;
+    --white: #ffffff;
+    --lime-light: #ccf70d;
+    --lime-dark: #607406bb
+
 }
