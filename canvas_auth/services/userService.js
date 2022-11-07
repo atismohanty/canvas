@@ -39,14 +39,14 @@ const createUser = async function(userData) {
     try{
         const valid = await userSchema.validateRegistration(userData);
         Users = initMongoUserModel();
-        let user = await findOneUser({emailAddress: userData.emailAddress}) || await findOneUser({usrname: userData.username});
+        let user = await findOneUser({emailAddress: userData.emailAddress}) || await findOneUser({usrname: userData.userName});
         if( !( user && user._id)) {
             // Encrypt the password
             userData =  await encryptPwd(userData);
             let newUser = new Users(userData);
             return newUser.save();
         } else {
-            throw {status: 500, error: null , message: 'User with same username or email address already exist.'};
+            throw {status: 500, error: null , message: 'User with same userName or email address already exist.'};
         }
     } catch(err) {
             return Promise.reject({status: 500, error: err.error ? err.error : err, message: err.message});
@@ -59,14 +59,14 @@ const getAllUser  = async function(options) {
         const pageNumber = options.pageNumber || 1;
         const pageSize = options.pageSize || 10;
         let sort = options.sort;
-        sort = formatSort(sort, {'username': 1});
+        sort = formatSort(sort, {'userName': 1});
         const allUsers = await Users
         .find(formatFind(options, ['pageNumber', 'pageSize', 'sort']))
         .skip((pageNumber -1) * pageSize)
         .sort(sort)
         .limit(pageSize)
         .count()
-        .select({username: 1, emailAddress: 1, firstName: 1, lastName: 1});
+        .select({userName: 1, emailAddress: 1, firstName: 1, lastName: 1});
         if(allUsers && allUsers.length) {
             return Promise.resolve(allUsers);
         } else {

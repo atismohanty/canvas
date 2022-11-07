@@ -14,6 +14,7 @@
     justify-content: flex-end;
     align-items: center;
     font-family: Arial, Helvetica, sans-serif;
+    min-width: 600px;
     .container-Secondary {
         width: 50%;
         height: 100%;
@@ -33,7 +34,8 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            .field-wrapper {
+            animation: smooth-in .5s;
+            .button-wrapper, .field-wrapper {
                 width: 80%;
                 min-height: 50px;
                 padding: 5px 10px;
@@ -47,15 +49,18 @@
                     /* border-radius: 5px; */
                     box-shadow: 0px 2px 0px 0px var(--lime-dark);
                     background: white;
-                    color: var(--lime-dark);
+                    color: var(--lime-extra-dark);
                     outline: none;
                     font-size: 16px;
                     font-weight: 500;
                 }
+                .default-input:active, .default-input:focus-visible::placeholder {
+                    color: transparent;
+                }
                 label {
                     font-size: 16px;
                     font-weight: 500;
-                    color: var(--lime-dark);
+                    color: var(--lime-extra-dark);
                 }
             }
             .submit {
@@ -63,20 +68,37 @@
                 height: 50px;
                 font-size: 16px;
                 font-weight: 500;
-                color: var(--lime-dark);
+                color: var(--lime-light);
                 margin-top: 20px;
-                background-color: white;
-                border: var(--lime-dark);
-                border: 2px solid var(--lime-dark);
+                background-color: var(--lime-dark);
+                border: 2px solid var(--lime-light);
                 border-radius: 5px;
+                &:active {
+                    background-color: var(--lime-dark) !important;
+                    color: var(--lime-extra-dark);
+                }
+                &:hover{
+                    background-color: var(--lime-light);
+                    color: var(--lime-extra-dark);
+                }
             }
-            .submit:active {
-                background-color: var(--lime-dark) !important;
-                color: white;
-            }
-            .submit:hover{
-                background-color: var(--lime-light);
+            .sub-text{
+                display: block;
+                font-size: 16px;
+                text-decoration: underline;
+                color: var(--lime-extra-dark);
+                margin-top: 10px;
+                font-weight: 500;
+                cursor: pointer;
+                &:hover {
+                    color: var(--lime-dark);
+                }
             }
         }
     }
+}
+
+@keyframes smooth-in {
+    from { opacity: 0; height: 0}
+    to {opacity: 1; height: 100%}
 }

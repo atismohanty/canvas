@@ -8,6 +8,8 @@ import { WildRouteComponent } from './components/wild-route/wild-route.component
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RegistrationComponent } from './registration/registration.component';
+import { FormErrorDirective } from './directives/form-error.directive';
+import { NotificationComponent } from './components/notification/notification.component';
 
 
 @NgModule({
@@ -15,7 +17,9 @@ import { RegistrationComponent } from './registration/registration.component';
     AppComponent,
     LoginComponent,
     WildRouteComponent,
-    RegistrationComponent
+    RegistrationComponent,
+    FormErrorDirective,
+    NotificationComponent
   ],
   imports: [
     BrowserModule,

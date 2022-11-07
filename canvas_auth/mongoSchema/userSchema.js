@@ -11,7 +11,7 @@ const registrationSchema =  new mongoose.Schema(
             type: ObjectId,
             require: true
         },
-        username : {
+        userName : {
             type: String,
             required: true,
             minlength: 8,
@@ -92,7 +92,7 @@ const validateRegistration = function(data) {
         {
             firstName: joi.string().required().max(200),
             lastName: joi.string().required().max(200),
-            username: joi.string().required().min(8).max(32).pattern(new RegExp(/^(?=.*[0-9])(?=.*[a-zA-Z]).{8,32}$/)),
+            userName: joi.string().required().min(8).max(32).pattern(new RegExp(/^(?=.*[0-9])(?=.*[a-zA-Z]).{8,32}$/)),
             //.message('Invalid user name. Username should be 8-32 characters long with only alphanumeric values'),
             emailAddress: joi.string().required().email(),
             //.message('Invalid email address.'),

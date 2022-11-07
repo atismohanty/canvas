@@ -1,1 +1,60 @@
-<p>registration works!</p>
+<div class="container-primary">
+    <div class="container-Secondary">
+        <form [formGroup]="registrationForm" (ngSubmit)="submitUserRegistration()" class="form-group form-full-width" novalidate>
+
+            <div class="field-wrapper">
+                <label for="firstName"> First Name </label>
+                <input type="text" class="form-control default-input" name="firstName" formControlName="firstName"  minlength="1" maxlength="50">
+                <p class="error-msg" *ngIf="registrationForm.get('firstName').dirty" [appFormError]="registrationForm.get('firstName').errors"></p>
+            </div>
+
+            <div class="field-wrapper">
+                <label for="lastName"> Last Name </label>
+                <input type="text" class="form-control default-input" name="lastName" formControlName="lastName"  minlength="1" maxlength="50">
+                <p class="error-msg" *ngIf="registrationForm.get('lastName').dirty" [appFormError]="registrationForm.get('lastName').errors"></p>
+            </div>
+
+            <div class="field-wrapper">
+                <label for="userName"> User Name </label>
+                <input type="text" class="form-control default-input" name="userName" formControlName="userName"  minlength="8" maxlength="50">
+                <p class="error-msg" *ngIf="registrationForm.get('userName').dirty" [appFormError]="registrationForm.get('userName').errors"></p>
+            </div>
+
+            <div class="field-wrapper">
+                <label for="emailAddress"> Email Address </label>
+                <input type="text" class="form-control default-input" name="emailAddress" formControlName="emailAddress" required minlength="8" maxlength="50">
+                <p class="error-msg" *ngIf="registrationForm.get('emailAddress').dirty" [appFormError]="registrationForm.get('emailAddress').errors"></p>
+            </div>
+
+            <div class="field-wrapper">
+                <label for="password"> Password </label>
+                <input type="password" class="form-control default-input" name="password" formControlName="password" required minlength="8" maxlength="20">
+                <p class="error-msg" *ngIf="registrationForm.get('emailAddress').dirty" [appFormError]="registrationForm.get('password').errors"></p>
+            </div>
+
+            <div class="field-wrapper">
+                <label for="confirmpassword"> Confirm Password </label>
+                <input type="password" class="form-control default-input" name="confirmpassword" formControlName="confirmpassword" required minlength="8" maxlength="20">
+                <p class="error-msg" *ngIf="registrationForm.get('emailAddress').dirty" [appFormError]="registrationForm.get('confirmpassword').errors"></p>
+                <p class="error-msg" *ngIf="registrationForm.invalid" [appFormError]="registrationForm.errors"></p>
+            </div>
+
+            <br/>
+            <div class="button-wrapper">
+                <input type="submit" name="submit" class="submit" value="Sign Up">
+                <button type="cancel" name="cancel" class="submit" value="Cancel" (click)="rerouteToLogin()">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+<ng-template #error let-error='error'>
+    <ng-container *ngIf="error.required">
+        <p> This is a required field</p>
+    </ng-container>
+    <ng-container *ngIf="error.minlength">
+        <p> This is a required field</p>
+    </ng-container>
+    <ng-container *ngIf="error.maxlength">
+        <p> This is a required field</p>
+    </ng-container>
+</ng-template>

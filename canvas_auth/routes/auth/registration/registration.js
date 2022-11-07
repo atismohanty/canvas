@@ -18,15 +18,24 @@ router.post('/new', function(req, res, next) {
   const queryParams =  req.query;
   users.createUser(userData)
   .then(async (result) => {
-    const userRes = Object.assign({}, {_id: result._id, username: result.username});
-    userData.id  = result._id;
-    const initVerification = await users.initiateVerificationOfRegisterdUser(userData);
-    if (initVerification.success) {
-      userRes.verificationSent = true;
+    try {
+      const userRes = Object.assign({}, {_id: result._id, username: result.username});
+      userData.id  = result._id;
+      const initVerification = await users.initiateVerificationOfRegisterdUser(userData);
+      if (initVerification.success) {
+        userRes.verificationSent = true;
+      }
+      res.status(200).json(userRes).send(); 
+    } catch(err) {
+      userRes.verificationSent =  false;
+      res.status(200).json(userRes).send(); 
     }
-    res.status(200).json(userRes).send(); 
+    
   })
-  .catch((err) => res.status(err.status? err.status : 500).json({ error: err.error, message: err.message ? err.message : 'Something went wrong'}).send())
+  .catch(
+    (err) => {
+      res.status(err.status? err.status : 500).json({ error: err.error, message: err.message ? err.message : 'Something went wrong'}).send()
+    })
 });
 
 router.get('/verify', async function(req, res, next) {

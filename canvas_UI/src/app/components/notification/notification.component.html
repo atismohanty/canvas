@@ -1,0 +1,8 @@
+<ng-container *ngIf="allnotification.length > 0">
+    <ng-container *ngFor = "let notification of allnotification">
+        <div class ='notification-banner' #notificationbanner>
+            <p class='notification-header'>{{notification?.type}}</p>
+            <p class='notification-body'>{{notification?.message}}</p>
+        </div>
+    </ng-container>
+</ng-container>

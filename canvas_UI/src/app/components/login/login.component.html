@@ -3,7 +3,7 @@
         <form [formGroup]="loginForm" (ngSubmit)="submitUserCreds()" class="form-full-width">
             <div class="field-wrapper">
                 <label for="username"> User Name </label>
-                <input type="text" class="default-input" name="username" formControlName="username">
+                <input type="text" class="default-input" name="username" formControlName="username" #userName>
             </div>
             <div class="field-wrapper">
                 <label for="password"> Password </label>
@@ -12,6 +12,7 @@
 
             <br/>
             <input type="submit" name="submit" class="submit" value="Login">
+            <p class="sub-text" (click)="nav_to_registration()"> Not a user yet?</p>
         </form>
     </div>
 </div>

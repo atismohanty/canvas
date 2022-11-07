@@ -1,0 +1,14 @@
+@import '../components/login/login.component.scss';
+
+.button-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.error-msg {
+    margin-top: 5px;
+    font-size: 10px;
+    font-weight: 500;
+    font-style: italic;
+    color: red;
+}

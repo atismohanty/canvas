@@ -1,0 +1,38 @@
+@import url(../../../styles.scss);
+
+.notification-banner {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    min-width: 200px;
+    min-height: 80px;
+    background: var(--limr-extra-dark);
+    color: var(--lime-light);
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: flex-start;
+    animation: smooth-in .5s;
+    z-index: 5000;
+    box-shadow: 1px 1px 5px 1px var(--lime-light);
+    .notification-header {
+        font-size: 18px;
+        font-weight: 600;
+        margin-top: 10px;
+    }
+    .notification-body {
+        font-size: 18px;
+        font-weight: 500;
+        margin-top: 10px;
+    }
+
+    
+}
+
+@keyframes smooth-in {
+    from { opacity: 0 }
+    to {opacity: 1}
+}
