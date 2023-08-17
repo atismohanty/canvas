@@ -6,7 +6,7 @@ export const environment = {
   production: false
 };
 export const apiHost = {
-  authUrl: 'http://localhost:8080/'
+  authUrl: 'https://localhost'
 }
 /*
  * For easier debugging in development mode, you can import the following file

@@ -14,6 +14,7 @@ FROM nginx
 EXPOSE 80
 RUN rm -rf /etc/nginx/nginx.conf
 COPY ./nginx.conf /etc/nginx/
+COPY ./certs /etc/nginx/certs
 COPY --from=base /canvasui_docker/dist/canvasUI /usr/share/nginx/html
 CMD ["nginx", "-g", "daemon off;"]
 # ENTRYPOINT ['bash']

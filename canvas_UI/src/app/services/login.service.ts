@@ -8,8 +8,7 @@ import { apiHost } from 'src/environments/environment';
 export class LoginService {
   constructor(
     private http: HttpClient
-  ) { 
-    console.log(apiHost);
+  ) {
   }
 
     getLogin(userdata: {username: string, password: string}) {

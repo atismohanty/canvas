@@ -1,30 +1,59 @@
 version: "3.8"
 services:
-  canvasauth:
-    build: ./canvas_auth
+  dbservice:
+    image: mongo:4.0-xenial
+    container_name: canvas-mongo
     ports:
-      - 3001:3001
-    environment:
-      - NODE_ENV:dev
-    volumes:
-      - nodemodules:/data/node_modules
-  canvasui:
-    build: ./canvas_UI
-    ports:
-      - 3000:3000
-  db:
-    image: mongo:4.0-xenial 
-    ports:
-      - 27017:37017
+      - 37017:37017
     expose: 
       - 37017
     volumes:
       - mongodata:/data/mongodata
+    networks:
+      - network1
+
+  canvasauth:
+    build: ./canvas_auth_TS
+    image: canvas-auth
+    container_name: canvas-auth
+    environment:
+      - NODE_ENV=dev
+      - MONGO_HOST=dbservice
+      - MONGO_HOST_ALT=canvasui
+    depends_on :
+      - dbservice
+    ports:
+      - 3001:3001
+    volumes:
+      - nodemodules:/data/node_modules
+    networks:
+      - network1
+
+  canvasui:
+    build: ./canvas_UI
+    image: canvas-ui
+    container_name: canvas-ui
+    ports:
+      - 3000:3000
+    networks:
+      - network1
+    environment:
+      - host:canvas-mongo
+    depends_on:
+      - canvasauth
+
   nginx:
     build: ./nginx
+    image: canvas-nginx
+    networks:
+      - network1
     ports:
       - 80:80
-    
+
+networks:
+  network1:
+    name: canvas_network
+    driver: bridge
 
 volumes:
   nodemodules:

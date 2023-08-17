@@ -1,0 +1,25 @@
+{
+    "mongo" : {
+        "mongooseHost" : "127.0.0.1",
+        "mongoosePort" : 27017,
+        "protocol": "mongodb",
+        "mongodbServiceHost": "dbservice"
+    },
+    "protocol": "mongodb",
+    "secret_key": "XPM00YHSKEKKE899UYAPL203SYCUAKALSLPPS",
+    "facebookApp": {
+        "appId": "3075641606080297",
+        "appSecret": "717549c020787b271def0cafeb8b4a6e",
+        "callBackUrl": "https://localhost:3001/api/v1/auth/redirects/fbredirect"
+
+    },
+    "mailer" : {
+        "host": "smtp.gmail.com",
+        "port": 587,
+        "secure": false,
+        "auth": {
+            "username": "atismohanty1111@gmail.com"
+        },
+        "email": "atismohanty1111@gmail.com"
+    }
+}
